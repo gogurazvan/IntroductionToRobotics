@@ -4,5 +4,4 @@ Repository with the homeworks and projects done for the Introduction to Robotics
 ## Homework 1
 
 [Video]( https://youtu.be/1vLgQPF1mOE )
-![Imagine](https://user-images.githubusercontent.com/79469458/197783519-1b1fdf31-3a36-4771-b979-5c1fbf3f4b04.jpeg)
-<img src="https://user-images.githubusercontent.com/79469458/197783519-1b1fdf31-3a36-4771-b979-5c1fbf3f4b04.jpeg" width="20" height="20">
+<img src="https://user-images.githubusercontent.com/79469458/197783519-1b1fdf31-3a36-4771-b979-5c1fbf3f4b04.jpeg" width="50" height="50">
