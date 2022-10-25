@@ -6,3 +6,5 @@ Repository with the homeworks and projects done for the Introduction to Robotics
 <img src="https://user-images.githubusercontent.com/79469458/197783519-1b1fdf31-3a36-4771-b979-5c1fbf3f4b04.jpeg" align="left" width="300" height="300">
 
 Project[Link aici]( https://youtu.be/1vLgQPF1mOE )
+
+## Homework 2
