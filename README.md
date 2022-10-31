@@ -15,4 +15,5 @@ Link to the working project [here]( https://youtu.be/1vLgQPF1mOE )
 ## Homework 2
 
 <img src="https://user-images.githubusercontent.com/79469458/198998479-7c34525d-a87d-4304-929b-87c03761122e.jpeg" align="left" width="300" height="300">
-Link to the working project [here]( https://youtu.be/1vLgQPF1mOE )
+
+Link to the working project [here]( https://youtu.be/Otya_aDd8WY )
