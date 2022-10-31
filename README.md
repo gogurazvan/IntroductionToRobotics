@@ -11,4 +11,8 @@ I used the **orange**(for red), **green** and **blue** cables to color code each
 The resistances are *100Ω* for the red anode and *220Ω* for the green and blue anodes.
 
 Link to the working project [here]( https://youtu.be/1vLgQPF1mOE )
+<br><br><br><br><br>
+## Homework 2
 
+<img src="https://user-images.githubusercontent.com/79469458/198998479-7c34525d-a87d-4304-929b-87c03761122e.jpeg" align="left" width="300" height="300">
+Link to the working project [here]( https://youtu.be/1vLgQPF1mOE )
