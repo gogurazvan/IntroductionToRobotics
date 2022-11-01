@@ -26,6 +26,10 @@ const int blinkInterval = 300;
 
 const int buttonPressDelay = 8000, durationStage2 = 3000, durationStage3 = 8000, durationStage4 = 4000;
 
+const unsigned long daBounce = 50;
+
+volatile unsigned long lastPress = 0;
+
 volatile byte buttonPressed = false;
 int actionStage = STAGE_1;
 int carSemColor = SEM_GREEN, pedSemColor = SEM_RED;
@@ -112,7 +116,10 @@ void loop() {
 }
 
 void startSemaphore(){  //interrupt function, didn't use debounce because I am not affected by multiple presses
-  buttonPressed = true;
+  if (millis() - lastPress > daBounce) {
+    buttonPressed = true;
+    lastPress = millis();
+  }
 }
 
 void setSem(int carSem, int pedSem){  //function for coloring the semaphores
