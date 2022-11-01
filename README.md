@@ -18,7 +18,7 @@ Link to the working project [here]( https://youtu.be/1vLgQPF1mOE )
 
 This projects is something like a traffic lights simulator. Pressing the button will make the semaphore stop the cars and let people cross the road.<br>
 As seen in the video down bellow the system has 4 stages, first being the neutral state and the rest being initiated by pressing the button. Each non-neutral stage runs for a given amount of time, coded using the **millis() function** that checks if enough time has passed to progress to the next stage.<br>
-The button is connected to an **interrupt pin** and I use **INPUT_PULLUP** to solve the **floating pin problem**. Pressing it triggers an **interrupt function** that modifies a variable that makes the stage 1 progress in the second stage, the variable resets after stage 4. In this case I didn't use a **debounce** because I am not affected by the multiple presses in a short time cause by the bouncig of the button.<br>
+The button is connected to an **interrupt pin** and I use **INPUT_PULLUP** to solve the **floating pin problem**. Pressing it triggers an **interrupt function** that modifies a variable that makes the stage 1 progress in the second stage, the variable resets after stage 4.<br>
 I used **red**, **yellow** and **green** cables for each respective LED, **orange** for the buzzer and **grey** for the button input. All ground cables are **black**. Resistances: *330Ω*-LEDs and *220Ω*-buzzer.
 
 Link to the working project [here]( https://youtu.be/Otya_aDd8WY )
