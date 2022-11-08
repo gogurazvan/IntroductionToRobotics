@@ -22,3 +22,12 @@ The button is connected to an **interrupt pin** and I use **INPUT_PULLUP** to so
 I used **red**, **yellow** and **green** cables for each respective LED, **orange** for the buzzer and **grey** for the button input. All ground cables are **black**. Resistances: *330Ω*-LEDs and *220Ω*-buzzer.
 
 Link to the working project [here]( https://youtu.be/Otya_aDd8WY )
+
+## Homework 3
+
+<img src="https://user-images.githubusercontent.com/79469458/200681369-e332f099-4331-4090-9984-25811cee57e1.png" align="left" width="300" height="300">
+
+This project consists in manipulating a 7-segment display using a joystick. The joystick can be moved to choose a segemnt and pressed to set the segment on/off(by moving the y axis). Long pressing in the select state causes a reset.
+<br>I used **red** and **black** cables for the 5V/GND pins, **yellow** for the 7-segment LED pins, **blue** for analog inputs(for the joysticks X/Y axes), and **green** for the button pin. I have a *1kΩ* resistance for the 7-segment.
+
+Link to the working project [here]( https://youtu.be/dO4oEZhUCy8 )
