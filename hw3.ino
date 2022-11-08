@@ -32,16 +32,16 @@ const int pinY = A1; // A1 - analog pin connected to Y output
 
 const unsigned long blinkInterval = 500;
 const unsigned long debounceInterval = 50;
-const unsigned long resetTime = 2000;
+const unsigned long resetTime = 2000; //time the button stays pressed for reset
 
 int xValue = 0;
 int yValue = 0;
 
-int segments[SEG_SIZE] = { 
+int segments[SEG_SIZE] = {            //segment pins array
   pinA, pinB, pinC, pinD, pinE, pinF, pinG, pinDP
 };
 
-byte segLightStates[SEG_SIZE] = {
+byte segLightStates[SEG_SIZE] = {   //array that save the on/off state for each LED
   LOW, LOW, LOW, LOW, LOW, LOW, LOW, LOW
 };
 
@@ -85,18 +85,18 @@ void loop() {
   buttonRead = digitalRead(pinSW);
   if (buttonRead != lastButtonRead)
     lastPressDebounce = millis();
-  if (millis() - lastPressDebounce > debounceInterval){
+  if (millis() - lastPressDebounce > debounceInterval){  //classic debounce
     if (buttonPressed == buttonRead)
       buttonPressed = !buttonRead;
       
     if (buttonPressed){
-      if (released){
+      if (released){    //the button should not be pressed if it was not released
         pressStart = millis();
         pressed = true;
         released = false;
       }
     }else{ 
-      if (pressed){
+      if (pressed){  //makes sure that it doesn't change state after reset
         stage = !stage;
         pressed = false;
       }
@@ -105,8 +105,8 @@ void loop() {
   }
   lastButtonRead = buttonRead;
 
-  if (stage == STAGE_1){
-    if ((millis() - pressStart > resetTime) && pressed){
+  if (stage == STAGE_1){ //first stage
+    if ((millis() - pressStart > resetTime) && pressed){ //checks for long press
         pressed = false;
         for (int i = 0; i < SEG_SIZE; ++i)
           segLightStates[i] = LOW;
@@ -114,21 +114,21 @@ void loop() {
     }
     blink(blinkState, lastBlink, blinkInterval);
     segIndex = moveSegment(segIndex, isNeutral);
-  }else{
+  }else{  //second stage
     setSegment(segIndex);
   }
   lightSegments(segIndex);
 }
 
 
-void lightSegments(int segmentOmit){
+void lightSegments(int segmentOmit){ //lights the segments
   for (int i = 0; i < SEG_SIZE; ++i){
     if (i != segmentOmit)
       digitalWrite(segments[i], segLightStates[i]);    
   }    
 }
 
-void blink(byte &blinkState, unsigned long &lastBlink, unsigned long blinkInterval){
+void blink(byte &blinkState, unsigned long &lastBlink, unsigned long blinkInterval){ //blinks the selected segment
   if (millis() - lastBlink > blinkInterval){
     digitalWrite(segments[segIndex], blinkState);
     lastBlink = millis();
@@ -136,7 +136,7 @@ void blink(byte &blinkState, unsigned long &lastBlink, unsigned long blinkInterv
   }
 }
 
-int moveSegment(int currentSegment, byte &wasNeutral){
+int moveSegment(int currentSegment, byte &wasNeutral){ //function for stage 1 joystick segment movent
   int xVal = analogRead(pinX);
   int yVal = analogRead(pinY);
   int direction = NEUTRAL;
@@ -159,7 +159,7 @@ int moveSegment(int currentSegment, byte &wasNeutral){
   return currentSegment; 
 }
 
-void setSegment(int currentSegment){
+void setSegment(int currentSegment){ // function for stage 2 on/off switch
   int yVal = analogRead(pinY);
   if (yVal > MAX_TRESHHOLD)
     segLightStates[currentSegment] = LOW;
