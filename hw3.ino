@@ -31,8 +31,8 @@ const int pinX = A0; // A0 - analog pin connected to X output
 const int pinY = A1; // A1 - analog pin connected to Y output
 
 const unsigned long blinkInterval = 500;
-const unsigned long debounceInterval = 200;
-const unsigned long resetTime = 5000;
+const unsigned long debounceInterval = 50;
+const unsigned long resetTime = 2000;
 
 int xValue = 0;
 int yValue = 0;
@@ -63,11 +63,14 @@ byte isNeutral = true;
 byte blinkState = LOW;
 unsigned long lastBlink = 0;
 
-volatile byte buttonPressed = false;
-volatile byte buttonReleased = false;
-volatile unsigned long lastPressDebounce = 0;
-volatile unsigned long lastReleaseDebounce = 0;
-volatile unsigned long pressStart = 0;
+byte buttonPressed = false;
+unsigned long lastPressDebounce = 0;
+unsigned long lastReleaseDebounce = 0;
+unsigned long pressStart = 0;
+byte buttonRead = false;
+byte lastButtonRead = false;
+byte pressed = false;
+byte released = true;
 
 void setup() {
   for (int i = 0; i < SEG_SIZE; i++) {
@@ -75,26 +78,40 @@ void setup() {
   }
   pinMode(pinSW, INPUT_PULLUP);
 
-  attachInterrupt(digitalPinToInterrupt(pinSW), buttonPress, CHANGE);
-
-  Serial.begin(9600);
+//  attachInterrupt(digitalPinToInterrupt(pinSW), buttonPress, CHANGE);
 }
 
-
-
 void loop() {
-  if (buttonPressed){
-    if (buttonReleased){
-      stage = !stage;
-      buttonPressed = false;
-    }else if ((millis() - pressStart > resetTime) && stage == STAGE_1){
-      buttonPressed = false;
-      for (int i = 0; i < SEG_SIZE; ++i)
-        segLightStates[i] = LOW;
-      segIndex = DP;
+  buttonRead = digitalRead(pinSW);
+  if (buttonRead != lastButtonRead)
+    lastPressDebounce = millis();
+  if (millis() - lastPressDebounce > debounceInterval){
+    if (buttonPressed == buttonRead)
+      buttonPressed = !buttonRead;
+      
+    if (buttonPressed){
+      if (released){
+        pressStart = millis();
+        pressed = true;
+        released = false;
+      }
+    }else{ 
+      if (pressed){
+        stage = !stage;
+        pressed = false;
+      }
+      released = true;      
     }
   }
+  lastButtonRead = buttonRead;
+
   if (stage == STAGE_1){
+    if ((millis() - pressStart > resetTime) && pressed){
+        pressed = false;
+        for (int i = 0; i < SEG_SIZE; ++i)
+          segLightStates[i] = LOW;
+        segIndex = DP;
+    }
     blink(blinkState, lastBlink, blinkInterval);
     segIndex = moveSegment(segIndex, isNeutral);
   }else{
@@ -151,24 +168,24 @@ void setSegment(int currentSegment){
   digitalWrite(segments[currentSegment], segLightStates[currentSegment]);
 }
 
-void buttonPress(){
-  byte buttonRead = digitalRead(pinSW);
-  byte buttonOn = !buttonRead;
-  if (buttonOn){
-    if (millis() - lastPressDebounce > debounceInterval){    
-      buttonPressed = true;
-      buttonReleased = false; 
-      pressStart = millis();
-      Serial.println("p");         
-    }
-    lastPressDebounce = millis();   
-  }else{
-    if (millis() - lastReleaseDebounce > debounceInterval){   
-      buttonReleased = true;
-      Serial.println("r");
-    }
-    lastReleaseDebounce = millis();
-  }
-}
+// void buttonPress(){
+//   byte buttonRead = digitalRead(pinSW);
+//   byte buttonOn = !buttonRead;
+//   if (buttonOn){
+//     if (millis() - lastPressDebounce > debounceInterval){    
+//       buttonPressed = true;
+//       buttonReleased = false; 
+//       pressStart = millis();
+//       Serial.println("p");         
+//     }
+//     lastPressDebounce = millis();   
+//   }else{
+//     if (millis() - lastReleaseDebounce > debounceInterval){   
+//       buttonReleased = true;
+//       Serial.println("r");
+//     }
+//     lastReleaseDebounce = millis();
+//   }
+// }
 
 
