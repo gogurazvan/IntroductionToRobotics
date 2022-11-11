@@ -38,23 +38,23 @@ int displayValues[DISPLAY_COUNT] = {
   0, 0, 0, 0
 };
 //encoding matrix
-byte registers[MAX_DIGIT][REG_SIZE] = {
-  {1, 1, 1, 1, 1, 1, 0, 0}, //0
-  {0, 1, 1, 0, 0, 0, 0, 0}, //1
-  {1, 1, 0, 1, 1, 0, 1, 0}, //2
-  {1, 1, 1, 1, 0, 0, 1, 0}, //3
-  {0, 1, 1, 0, 0, 1, 1, 0}, //4
-  {1, 0, 1, 1, 0, 1, 1, 0}, //5
-  {1, 0, 1, 1, 1, 1, 1, 0}, //6
-  {1, 1, 1, 0, 0, 0, 0, 0}, //7
-  {1, 1, 1, 1, 1, 1, 1, 0}, //8
-  {1, 1, 1, 1, 0, 1, 1, 0}, //9
-  {0, 0, 1, 1, 1, 0, 1, 0}, //A(10)
-  {0, 0, 0, 1, 1, 0, 1, 0}, //B(11)
-  {0, 0, 0, 1, 0, 1, 1, 0}, //C(12)
-  {0, 1, 1, 1, 1, 0, 1, 0}, //D(13)
-  {1, 0, 0, 1, 1, 1, 1, 0}, //E(14)
-  {1, 0, 0, 0, 1, 1, 1, 0}, //F(15)
+byte registers[MAX_DIGIT] = {
+  B11111100, //0
+  B01100000, //1
+  B11011010, //2
+  B11110010, //3
+  B01100110, //4
+  B10110110, //5
+  B10111110, //6
+  B11100000, //7
+  B11111110, //8
+  B11110110, //9
+  B11101110, //A(10)
+  B00111110, //B(11)
+  B10011100, //C(12)
+  B01111010, //D(13)
+  B10011110, //E(14)
+  B10001110 //F(15)
 };
 
 byte stage = STAGE_1;
@@ -181,22 +181,18 @@ void setDigit(int currentDigit, byte &wasNeutral) { // function for stage 2 digi
 
 void display(int currentDigit, byte dpState) {
   for (int i = 0; i < DISPLAY_COUNT; ++i) {
-    if (i == currentDigit) registers[displayValues[currentDigit]][REG_SIZE-1] = dpState;
+    if (i == currentDigit) registers[displayValues[currentDigit]] += dpState;
     writeReg(registers[displayValues[i]]);
-    registers[displayValues[currentDigit]][REG_SIZE-1] = 0;
+    registers[displayValues[currentDigit]] = (registers[displayValues[currentDigit]] / 2) * 2;//makes the last digit 0
     digitalWrite(displayDigits[i],LOW);  
     delay(1);
     digitalWrite(displayDigits[i],HIGH);  
   }
 }
 
-void writeReg(byte encoding[]) {
+void writeReg(byte encoding) {
   digitalWrite(latchPin, LOW); 
-  for (int i = 0; i < REG_SIZE; i++) { // MSBFIRST 
-    digitalWrite(clockPin, LOW);
-    digitalWrite(dataPin, encoding[i]);
-    digitalWrite(clockPin, HIGH);
-  }
+  shiftOut(dataPin, clockPin, MSBFIRST, encoding);
   digitalWrite(latchPin, HIGH);
 }
 
