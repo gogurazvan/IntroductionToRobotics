@@ -40,4 +40,4 @@ Link to the working project [here]( https://youtu.be/dO4oEZhUCy8 )
 This project consists in manipulating a 4-digit 7-segment display using a joystick. The joystick can be moved by the X-axis in the first state to change the current display and by the Y-axis in the second state to change the display number. State is changed by pressing the button. Long pressing in the first state causes a reset.
 <br>I used a **SIPO** shift register for connecting the arduino to the segment pins. The shift registers **MR** is connected to *5V* and **OE** to *GND*. The cables used are: **red** and **black** for the *5V/GND* pins, **orange** for the *DS* pin(shift register), **yellow** for connecting the LED segment pins to the *Q0-Q7* shift register pins, **white** for the digit pins(display), **blue** for analog inputs(joystick) as well as the *SHCP* pin(SR), and **green** for the button pin(JS)/*STCP* pin(SR). I used *330Ω* resistances for the digit pins.
 
-Link to the working project [here]( https://youtu.be/dO4oEZhUCy8 )
+Link to the working project [here]( https://youtube.com/shorts/u0TRgZl-0SY?feature=share )
